@@ -8,6 +8,18 @@
  * del arreglo, cada que lo hace ejecuta una funcion
  * su indice y el arreglo original
  */
+ const razasDePerros = [
+    "Gran Danes",
+    "Dogo de Burdeos",
+    "Dogo de Argentino",
+    "San Bernando",
+    "Mastin del Pirineo",
+    "Mastin Español",
+    "Chihuahua",
+    "Pastor Aleman",
+    "Lobero Irlandes",
+    "Pitbull"
+];
 
 razasDePerros.forEach((raza, indice, 
     arregloOriginal) => console.log(raza));
