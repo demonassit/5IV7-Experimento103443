@@ -44,11 +44,79 @@ const pokedex = () =>{
         next : document.getElementById("btnUp"),
         previous : document.getElementById("btnDown")
     };
+    // Esta función muestra el tipo de pokemon, recibe el resultado de la búsqueda de la API
+    const processPokemonTypes = (pokemonData) => {
+        let pokemonType = "";
+        // Utilizo la primera clase para dar el color a los contenedores de movimientos y habilidades
+        const firstClass = pokemonData.types[0].type.name;
 
-    /**este objeto procesa las habilidades del pokemon y los coloca en su respectivo contenedor */
-    const processPokemonAbilities = (pokemonData) =>{
+        // ¿De dónde sale types, como sé es un arreglo? En la página de pokeapi(https://pokeapi.co/) puedes ver un ejemplo
+        // del objeto que responde, pokemonData es ese objeto
+        pokemonData.types.forEach((pokemonTypeData) => {
+            // Se crea una etiqueta de clases por cada elemento type del arreglo
+            pokemonType += `<span class="pokemon-type ${pokemonTypeData.type.name}">${pokemonTypeData.type.name}</span>`;
+        });
+        // Se quita la clase previa del contenedor de habilidades y movimientos si hay una
+        if (currentClassType) {
+            container.pokemonMovesElement.classList.remove(currentClassType);
+            container.pokemonAbilitiesElement.classList.remove(currentClassType);
+        }
+        // Se agrega la clase del tipo del contenedor de habilidades y movimientos
+        container.pokemonMovesElement.classList.add(firstClass);
+        container.pokemonAbilitiesElement.classList.add(firstClass);
+        currentClassType = firstClass;
+        // Se agregan las etiquetas creadas previamente en nuestro forEach
+        container.pokemonTypesContainer.innerHTML = pokemonType;
+    };
+
+   
+    // Procesa las estadísticas del pokemon, recibe el objeto completo de la respuesta de la pokeapi
+    const processPokemonStats = (pokemonData) => {
+        // El operador '?.' se llama encadenamiento opcional, si el elemento a la izquierda es null o undefined
+        // no ejecuta lo que esta a la derecha, más en https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Operators/Optional_chaining
+        pokemonData.stats?.forEach((pokemonStatData) => {
+            // Evalua el nombre de la estadística, y coloca su valor en su respectivo contenedor, y le aplica un
+            // estilo de gradiente, para hacer más visual el efecto.
+            switch (pokemonStatData.stat.name) {
+                case "hp":
+                    pokemonStatsElements.hp.innerHTML = pokemonStatData.base_stat;
+                    pokemonStatsElements.hp.style = `background: linear-gradient(0deg, rgba(0,118,255,1) ${pokemonStatData.base_stat}%, rgba(0,0,0,1) ${pokemonStatData.base_stat}%); `;
+                    break;
+                case "attack":
+                    pokemonStatsElements.attack.innerHTML = pokemonStatData.base_stat;
+                    pokemonStatsElements.attack.style = `background: linear-gradient(0deg, rgba(0,118,255,1) ${pokemonStatData.base_stat}%, rgba(0,0,0,1) ${pokemonStatData.base_stat}%); `;
+                    break;
+                case "defense":
+                    pokemonStatsElements.defense.innerHTML = pokemonStatData.base_stat;
+                    pokemonStatsElements.defense.style = `background: linear-gradient(0deg, rgba(0,118,255,1) ${pokemonStatData.base_stat}%, rgba(0,0,0,1) ${pokemonStatData.base_stat}%); `;
+                    break;
+                case "special-attack":
+                    pokemonStatsElements.specialAttack.innerHTML = pokemonStatData.base_stat;
+                    pokemonStatsElements.specialAttack.style = `background: linear-gradient(0deg, rgba(0,118,255,1) ${pokemonStatData.base_stat}%, rgba(0,0,0,1) ${pokemonStatData.base_stat}%); `;
+                    break;
+                case "special-defense":
+                    pokemonStatsElements.specialDefense.innerHTML = pokemonStatData.base_stat;
+                    pokemonStatsElements.specialDefense.style = `background: linear-gradient(0deg, rgba(0,118,255,1) ${pokemonStatData.base_stat}%, rgba(0,0,0,1) ${pokemonStatData.base_stat}%); `;
+                    break;
+                case "speed":
+                    pokemonStatsElements.speed.innerHTML = pokemonStatData.base_stat;
+                    pokemonStatsElements.speed.style = `background: linear-gradient(0deg, rgba(0,118,255,1) ${pokemonStatData.base_stat}%, rgba(0,0,0,1) ${pokemonStatData.base_stat}%); `;
+                    break;
+            }
+        });
+    };
+    // Procesa los movimientos del pokemon, y los coloca en su respectivo contenedor
+    const processPokemonMoves = (pokemonData) => {
+        let pokemonMovesContent = "";
+        pokemonData.moves?.forEach((pokemonMove) => {
+            pokemonMovesContent += `<li>${pokemonMove.move.name}</li>`;
+        });
+        container.pokemonMovesElement.innerHTML = pokemonMovesContent;
+    };
+    // Procesa las habilidades del pokemon, y los coloca en su respectivo contenedor
+    const processPokemonAbilities = (pokemonData) => {
         let pokemonAbilitiesContent = "";
-        pokemonData.abilities?.forEach((pokemonAbility) =>{
+        pokemonData.abilities?.forEach((pokemonAbility) => {
             pokemonAbilitiesContent += `<li>${pokemonAbility.ability.name}</li>`;
         });
         container.pokemonAbilitiesElement.innerHTML = pokemonAbilitiesContent;
@@ -114,7 +182,7 @@ const pokedex = () =>{
                 container.pokemonIdElement.value = pokemonData.id;
 
                 //el proceso de los datos
-                processPokemonType(pokemonData);
+                processPokemonTypes(pokemonData);
                 processPokemonStats(pokemonData);
                 processPokemonAbilities(pokemonData);
                 processPokemonMoves(pokemonData);
@@ -128,6 +196,24 @@ const pokedex = () =>{
                 confirmButtonText: "Aceptar" 
             });
         }
-    }
+    };
 
-}
+    const triggers = () => {
+        // se le vincula la función de búsqueda al botón de buscar.
+        buttons.search.onclick = () => setPokemonData(pokemonInput.value);
+        // se le vincula la función de búsqueda al campo de texto para buscar cuando presionan enter
+        pokemonInput.onkeyup = (event) => {
+            event.preventDefault();
+            if (event.key === "Enter") {
+                setPokemonData(pokemonInput.value);
+            }
+        }
+        // se le vincula la función de búsqueda al arriba y abajo, estos funcionan con el ID en lugar del campo de texto.
+        buttons.next.onclick = () => setPokemonData(+containers.pokemonIdElement.value + 1);
+        buttons.previous.onclick = () => setPokemonData(+containers.pokemonIdElement.value - 1);
+    };
+    setLoadingComplete();
+    triggers();
+
+};
+window.onload = pokedex;
