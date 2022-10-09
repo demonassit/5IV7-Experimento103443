@@ -4,9 +4,9 @@
  * npx expo install react-native-web@~0.18.7 react-dom@18.0.0 @expo/webpack-config@^0.17.0
  */
 
-import {ScrollView, StyleSheet} from 'react-native';
-import {NavigatorContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+ import {StyleSheet} from 'react-native';
+ import {NavigationContainer} from "@react-navigation/native";
+ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 //nuestras ventanas
 import Profile from "./Screens/Profile";
