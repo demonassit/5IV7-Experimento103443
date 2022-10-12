@@ -4,59 +4,22 @@
  * npx expo install react-native-web@~0.18.7 react-dom@18.0.0 @expo/webpack-config@^0.17.0
  */
 
- import {StyleSheet} from 'react-native';
- import {NavigationContainer} from "@react-navigation/native";
- import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import BitcoinData from "./pages/BitcoinData";
+import { NavigationContainer } from "@react-navigation/native";
 
-//nuestras ventanas
-import Profile from "./Screens/Profile";
-import Home from "./Screens/Home";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import Home from "./pages/Home";
 
-//import SimpleState from "./components/functional/SimpleState";
-// import ComplexStates from "./components/functional/ComplexStates";
- 
- export default function App() {
-    
-    const Stack = createNativeStackNavigator();
-    
+const Stack = createNativeStackNavigator();
+
+export default function App(){
     return (
-        /*
-         <ScrollView>
-             <ComplexStates/>
-         </ScrollView>
-         Este objeto tiene como componentes Navigator y Screen, los cuales crean un contexto que permite desplazarse a traves de las pantallas, tienens que respetar la estructura 
-         (NavigationContainer > Stack. Navigator > Stack.Screen)
-         Tienen varias propiedades como mostrar u ocultar el boton de volver.
-     */
-        <NavigationContainer>{}
+        <NavigationContainer initialRouteName="Home" >
             <Stack.Navigator>
-                <Stack.Screen
-                    name="Home"
-                    component = {Home}
-                    options = {{title:'Welcome'}}
-                >
-
-                </Stack.Screen>
-                <Stack.Screen
-                    name = "Profile"
-                    component = {Profile}
-                >
-
-                </Stack.Screen>
+                <Stack.Screen name="Home" component={Home} ></Stack.Screen>
+                <Stack.Screen name="Bitcoin" component={BitcoinData} ></Stack.Screen>
             </Stack.Navigator>
-           
         </NavigationContainer>
-         );
-
-
- }
- 
- const styles = StyleSheet.create({
-     container: {
-         flex: 1,
-         backgroundColor: '#fff',
-         alignItems: 'center',
-         justifyContent: 'center',
-     },
- });
+    );
+}
