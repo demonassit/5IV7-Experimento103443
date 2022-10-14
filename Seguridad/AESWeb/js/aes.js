@@ -1,6 +1,6 @@
-var mensaje = "habia una vez un patito que decia miau miau, y ese patito queria mimir todo el dia, pero en lugar de mimir, tenia que ir a trabajar y y y eso lo hacia sentir mal y por eso comia panditas y y y un dia el patito que decia miau miau se quedo sin panditas T_T";
+var mensaje = "habia una vez un patito que decia miau miau, y ese patito empezo a caminar y decia miau miau miau, y un dia se encontro con un gatito que decia cuack cuak, cuando se vieron vieron sus ojotes y se acerco el patito al gatito y le acaricio su rostro y se repego para abrazar al gatito, y el gatito que decia cuack cuack tambien se repego al patito y desde ese dia el patito y el gatito caminaban juntos diciendo miau miau y cuack cuack, para que asi el gatito dijera miau y el patito cuak porque al fin se complementaban";
 
-var password = "qweh";
+var password = "patito";
 
 //proceso bien feo de cifrado
 
